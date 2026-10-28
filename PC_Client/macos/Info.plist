@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>CFBundleName</key><string>RID工作台</string>
+<key>CFBundleDisplayName</key><string>RID工作台</string>
+<key>CFBundleIdentifier</key><string>com.ridworkbench.pcclient</string>
+<key>CFBundleVersion</key><string>2.20</string>
+<key>CFBundleShortVersionString</key><string>2.20</string>
+<key>CFBundleExecutable</key><string>RIDClient</string>
+<key>CFBundlePackageType</key><string>APPL</string>
+<key>NSLocalNetworkUsageDescription</key><string>连接 RID 设备的本地管理页面。</string>
+<key>NSAppTransportSecurity</key><dict><key>NSAllowsArbitraryLoads</key><true/><key>NSAllowsLocalNetworking</key><true/></dict>
+<key>NSLocationWhenInUseUsageDescription</key><string>用于在地图上显示电脑位置。</string>
+<key>NSHighResolutionCapable</key><true/>
+</dict></plist>

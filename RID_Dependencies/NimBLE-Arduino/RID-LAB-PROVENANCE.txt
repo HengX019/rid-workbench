@@ -1,0 +1,6 @@
+Upstream: https://github.com/h2zero/NimBLE-Arduino
+Version: 2.5.1
+Commit: 5ae2c43f62c5a588a25c1de68f7d17b6f3b75adb
+Bundled: src/, library.properties, LICENSE
+Local configuration change: src/nimconfig.h enables CONFIG_BT_NIMBLE_EXT_ADV=1.
+Required for ESP32-S3 BLE 5 extended/Coded scanning in RID Lab 2.1.

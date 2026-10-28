@@ -1,0 +1,1391 @@
+{
+  "version": "2026-10-26.2",
+  "scope": "Full 20-character received serials only. Manufacturer model identity data; no foreign operating rules or trigger conditions. Multiple public model claims for one prefix stay ambiguous.",
+  "prefix_count": 63,
+  "unique_exact_models": 52,
+  "ambiguous_prefixes": 3,
+  "entries": [
+    {
+      "prefix": "1581F0M6",
+      "manufacturer": "DJI",
+      "candidates": [
+        "mavic2zoom"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000758",
+          "declaration_model": "Mavic 2 Zoom",
+          "serial_range": "1581F0M6000000000000-1581F0M6ZZZZZZZZZZZZ",
+          "revision": 2426,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000758&formatForDocView=true"
+        }
+      ],
+      "model": "mavic2zoom",
+      "ambiguous": false,
+      "reference": "RID000000758"
+    },
+    {
+      "prefix": "1581F0UY",
+      "manufacturer": "DJI",
+      "candidates": [
+        "phantom4rtk"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000752",
+          "declaration_model": "Phantom 4 RTK",
+          "serial_range": "1581F0UY000000000000-1581F0UYZZZZZZZZZZZZ",
+          "revision": 2420,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000752&formatForDocView=true"
+        }
+      ],
+      "model": "phantom4rtk",
+      "ambiguous": false,
+      "reference": "RID000000752"
+    },
+    {
+      "prefix": "1581F11V",
+      "manufacturer": "DJI",
+      "candidates": [
+        "phantom4prov20"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000759",
+          "declaration_model": "Phantom 4 Pro V2.0",
+          "serial_range": "1581F11V000000000000-1581F11VZZZZZZZZZZZZ",
+          "revision": 2427,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000759&formatForDocView=true"
+        }
+      ],
+      "model": "phantom4prov20",
+      "ambiguous": false,
+      "reference": "RID000000759"
+    },
+    {
+      "prefix": "1581F163",
+      "manufacturer": "DJI",
+      "candidates": [
+        "mavic2pro"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000757",
+          "declaration_model": "Mavic 2 Pro",
+          "serial_range": "1581F163000000000000-1581F163ZZZZZZZZZZZZ",
+          "revision": 2425,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000757&formatForDocView=true"
+        }
+      ],
+      "model": "mavic2pro",
+      "ambiguous": false,
+      "reference": "RID000000757"
+    },
+    {
+      "prefix": "1581F1WN",
+      "manufacturer": "DJI",
+      "candidates": [
+        "mavicair2"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000754",
+          "declaration_model": "Mavic Air 2 (MA2UE1N)",
+          "serial_range": "1581F1WN000000000000-1581F1WNZZZZZZZZZZZZ",
+          "revision": 2422,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000754&formatForDocView=true"
+        }
+      ],
+      "model": "mavicair2",
+      "ambiguous": false,
+      "reference": "RID000000754"
+    },
+    {
+      "prefix": "1581F1ZN",
+      "manufacturer": "DJI",
+      "candidates": [
+        "matrice300rtk"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000021",
+          "declaration_model": "M300 RTK",
+          "serial_range": "1581F1ZN000000000000-1581F1ZNZZZZZZZZZZZZ",
+          "revision": 2416,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000021&formatForDocView=true"
+        }
+      ],
+      "model": "matrice300rtk",
+      "ambiguous": false,
+      "reference": "RID000000021"
+    },
+    {
+      "prefix": "1581F37Q",
+      "manufacturer": "DJI",
+      "candidates": [
+        "fpv"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000756",
+          "declaration_model": "FPV",
+          "serial_range": "1581F37Q000000000000-1581F37QZZZZZZZZZZZZ",
+          "revision": 2424,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000756&formatForDocView=true"
+        }
+      ],
+      "model": "fpv",
+      "ambiguous": false,
+      "reference": "RID000000756"
+    },
+    {
+      "prefix": "1581F3N3",
+      "manufacturer": "DJI",
+      "candidates": [
+        "mavicair2"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000755",
+          "declaration_model": "Mavic Air 2 (MA2UE3W)",
+          "serial_range": "1581F3N3000000000000-1581F3N3ZZZZZZZZZZZZ",
+          "revision": 2423,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000755&formatForDocView=true"
+        }
+      ],
+      "model": "mavicair2",
+      "ambiguous": false,
+      "reference": "RID000000755"
+    },
+    {
+      "prefix": "1581F3YT",
+      "manufacturer": "DJI",
+      "candidates": [
+        "air2s"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000007",
+          "declaration_model": "Air 2S",
+          "serial_range": "1581F3YT000000000000-1581F3YTZZZZZZZZZZZZ",
+          "revision": 312,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000007&formatForDocView=true"
+        },
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000007",
+          "declaration_model": "Air 2S",
+          "serial_range": "1581F3YT000000000000-1581F3YTZZZZZZZZZZZZ",
+          "revision": 2275,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000007&formatForDocView=true"
+        }
+      ],
+      "model": "air2s",
+      "ambiguous": false,
+      "reference": "RID000000007"
+    },
+    {
+      "prefix": "1581F446",
+      "manufacturer": "DJI",
+      "candidates": [
+        "agrast10",
+        "agrast30"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000038",
+          "declaration_model": "Agras T30",
+          "serial_range": "1581F446000000000000-1581F446ZZZZZZZZZZZZ",
+          "revision": 2487,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000038&formatForDocView=true"
+        },
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000001163",
+          "declaration_model": "Agras T10",
+          "serial_range": "1581F446000000000000-1581F446ZZZZZZZZZZZZ",
+          "revision": 2552,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000001163&formatForDocView=true"
+        }
+      ],
+      "model": "",
+      "ambiguous": true,
+      "reference": "RID000000038;RID000001163"
+    },
+    {
+      "prefix": "1581F45T",
+      "manufacturer": "DJI",
+      "candidates": [
+        "mavic3"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000009",
+          "declaration_model": "Mavic 3",
+          "serial_range": "1581F45T000000000000-1581F45TZZZZZZZZZZZZ",
+          "revision": 2410,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000009&formatForDocView=true"
+        }
+      ],
+      "model": "mavic3",
+      "ambiguous": false,
+      "reference": "RID000000009"
+    },
+    {
+      "prefix": "1581F4BN",
+      "manufacturer": "DJI",
+      "candidates": [
+        "matrice30"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000011",
+          "declaration_model": "M30",
+          "serial_range": "1581F4BN000000000000-1581F4BNZZZZZZZZZZZZ",
+          "revision": 2412,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000011&formatForDocView=true"
+        }
+      ],
+      "model": "matrice30",
+      "ambiguous": false,
+      "reference": "RID000000011"
+    },
+    {
+      "prefix": "1581F4GC",
+      "manufacturer": "DJI",
+      "candidates": [
+        "mavic2enterpriseadvanced"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000753",
+          "declaration_model": "Mavic 2 Enterprise Advanced",
+          "serial_range": "1581F4GC000000000000-1581F4GCZZZZZZZZZZZZ",
+          "revision": 2421,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000753&formatForDocView=true"
+        }
+      ],
+      "model": "mavic2enterpriseadvanced",
+      "ambiguous": false,
+      "reference": "RID000000753"
+    },
+    {
+      "prefix": "1581F4QW",
+      "manufacturer": "DJI",
+      "candidates": [
+        "avata"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000008",
+          "declaration_model": "AVATA",
+          "serial_range": "1581F4QW000000000000-1581F4QWZZZZZZZZZZZZ",
+          "revision": 2409,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000008&formatForDocView=true"
+        }
+      ],
+      "model": "avata",
+      "ambiguous": false,
+      "reference": "RID000000008"
+    },
+    {
+      "prefix": "1581F4QZ",
+      "manufacturer": "DJI",
+      "candidates": [
+        "mavic3cine"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000010",
+          "declaration_model": "Mavic 3 Cine",
+          "serial_range": "1581F4QZ000000000000-1581F4QZZZZZZZZZZZZZ",
+          "revision": 2411,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000010&formatForDocView=true"
+        }
+      ],
+      "model": "mavic3cine",
+      "ambiguous": false,
+      "reference": "RID000000010"
+    },
+    {
+      "prefix": "1581F4XF",
+      "manufacturer": "DJI",
+      "candidates": [
+        "mini3pro"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000001",
+          "declaration_model": "Mini 3 Pro",
+          "serial_range": "1581F4XF000000000000-1581F4XFZZZZZZZZZZZZ",
+          "revision": 2482,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000001&formatForDocView=true"
+        }
+      ],
+      "model": "mini3pro",
+      "ambiguous": false,
+      "reference": "RID000000001"
+    },
+    {
+      "prefix": "1581F4Z4",
+      "manufacturer": "DJI",
+      "candidates": [
+        "inspire3"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000192",
+          "declaration_model": "Inspire 3",
+          "serial_range": "1581F4Z4000000000000-1581F4Z4ZZZZZZZZZZZZ",
+          "revision": 2431,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000192&formatForDocView=true"
+        }
+      ],
+      "model": "inspire3",
+      "ambiguous": false,
+      "reference": "RID000000192"
+    },
+    {
+      "prefix": "1581F574",
+      "manufacturer": "DJI",
+      "candidates": [
+        "agrast20p",
+        "agrast40"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000039",
+          "declaration_model": "Agras T40",
+          "serial_range": "1581F574000000000000-1581F574ZZZZZZZZZZZZ",
+          "revision": 2485,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000039&formatForDocView=true"
+        },
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000001181",
+          "declaration_model": "Agras T20P",
+          "serial_range": "1581F574000000000000-1581F574ZZZZZZZZZZZZ",
+          "revision": 2607,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000001181&formatForDocView=true"
+        }
+      ],
+      "model": "",
+      "ambiguous": true,
+      "reference": "RID000000039;RID000001181"
+    },
+    {
+      "prefix": "1581F5BK",
+      "manufacturer": "DJI",
+      "candidates": [
+        "matrice30t"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000012",
+          "declaration_model": "M30T",
+          "serial_range": "1581F5BK000000000000-1581F5BKZZZZZZZZZZZZ",
+          "revision": 2413,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000012&formatForDocView=true"
+        }
+      ],
+      "model": "matrice30t",
+      "ambiguous": false,
+      "reference": "RID000000012"
+    },
+    {
+      "prefix": "1581F5BL",
+      "manufacturer": "DJI",
+      "candidates": [
+        "matrice30"
+      ],
+      "variant": "Dock",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000273",
+          "declaration_model": "M30 Dock version",
+          "serial_range": "1581F5BL000000000000-1581F5BLZZZZZZZZZZZZ",
+          "revision": 350,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000273&formatForDocView=true"
+        }
+      ],
+      "model": "matrice30",
+      "ambiguous": false,
+      "reference": "RID000000273"
+    },
+    {
+      "prefix": "1581F5BM",
+      "manufacturer": "DJI",
+      "candidates": [
+        "matrice30t"
+      ],
+      "variant": "Dock",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000274",
+          "declaration_model": "M30T Dock version",
+          "serial_range": "1581F5BM000000000000-1581F5BMZZZZZZZZZZZZ",
+          "revision": 351,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000274&formatForDocView=true"
+        }
+      ],
+      "model": "matrice30t",
+      "ambiguous": false,
+      "reference": "RID000000274"
+    },
+    {
+      "prefix": "1581F5FH",
+      "manufacturer": "DJI",
+      "candidates": [
+        "mavic3e"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000019",
+          "declaration_model": "M3E",
+          "serial_range": "1581F5FH000000000000-1581F5FHZZZZZZZZZZZZ",
+          "revision": 2414,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000019&formatForDocView=true"
+        }
+      ],
+      "model": "mavic3e",
+      "ambiguous": false,
+      "reference": "RID000000019"
+    },
+    {
+      "prefix": "1581F5FJ",
+      "manufacturer": "DJI",
+      "candidates": [
+        "mavic3t"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000020",
+          "declaration_model": "M3T",
+          "serial_range": "1581F5FJ000000000000-1581F5FJZZZZZZZZZZZZ",
+          "revision": 2415,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000020&formatForDocView=true"
+        }
+      ],
+      "model": "mavic3t",
+      "ambiguous": false,
+      "reference": "RID000000020"
+    },
+    {
+      "prefix": "1581F5FK",
+      "manufacturer": "DJI",
+      "candidates": [
+        "mavic3m"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000057",
+          "declaration_model": "M3M",
+          "serial_range": "1581F5FK000000000000-1581F5FKZZZZZZZZZZZZ",
+          "revision": 2418,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000057&formatForDocView=true"
+        }
+      ],
+      "model": "mavic3m",
+      "ambiguous": false,
+      "reference": "RID000000057"
+    },
+    {
+      "prefix": "1581F5YH",
+      "manufacturer": "DJI",
+      "candidates": [
+        "mini3"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000062",
+          "declaration_model": "Mini 3",
+          "serial_range": "1581F5YH000000000000-1581F5YHZZZZZZZZZZZZ",
+          "revision": 2483,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000062&formatForDocView=true"
+        }
+      ],
+      "model": "mini3",
+      "ambiguous": false,
+      "reference": "RID000000062"
+    },
+    {
+      "prefix": "1581F62H",
+      "manufacturer": "DJI",
+      "candidates": [
+        "matrice30t"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000001136",
+          "declaration_model": "M30T (EU&KR)",
+          "serial_range": "1581F62H000000000000-1581F62HZZZZZZZZZZZZ",
+          "revision": 2486,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000001136&formatForDocView=true"
+        }
+      ],
+      "model": "matrice30t",
+      "ambiguous": false,
+      "reference": "RID000001136"
+    },
+    {
+      "prefix": "1581F67P",
+      "manufacturer": "DJI",
+      "candidates": [
+        "mavic3classic"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000041",
+          "declaration_model": "Mavic 3 Classic",
+          "serial_range": "1581F67P000000000000-1581F67PZZZZZZZZZZZZ",
+          "revision": 2417,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000041&formatForDocView=true"
+        }
+      ],
+      "model": "mavic3classic",
+      "ambiguous": false,
+      "reference": "RID000000041"
+    },
+    {
+      "prefix": "1581F67Q",
+      "manufacturer": "DJI",
+      "candidates": [
+        "mavic3pro"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000204",
+          "declaration_model": "Mavic 3 Pro",
+          "serial_range": "1581F67Q000000000000-1581F67QZZZZZZZZZZZZ",
+          "revision": 279,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000204&formatForDocView=true"
+        }
+      ],
+      "model": "mavic3pro",
+      "ambiguous": false,
+      "reference": "RID000000204"
+    },
+    {
+      "prefix": "1581F6BU",
+      "manufacturer": "DJI",
+      "candidates": [
+        "agrast25",
+        "agrast50"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000001594",
+          "declaration_model": "Agras T50 & T25",
+          "serial_range": "1581F6BU000000000000-1581F6BUZZZZZZZZZZZZ",
+          "revision": 3882,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000001594&formatForDocView=true"
+        }
+      ],
+      "model": "",
+      "ambiguous": true,
+      "reference": "RID000001594"
+    },
+    {
+      "prefix": "1581F6CD",
+      "manufacturer": "DJI",
+      "candidates": [
+        "mini2se"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_document_selector",
+          "reference": "DJI-DOC-2211",
+          "declaration_model": "DJI Mini 2 SE(without C0)",
+          "source_url": "https://www.dji.com/euro-compliance",
+          "document_url": "https://terra-1-g.djicdn.com/9b266a09f53f4040901d8f8eca40ac3e/Mavic/DJI%20Mini%202%20SE_DOC.pdf",
+          "field": "temp_sn"
+        },
+        {
+          "source": "manufacturer_document_selector",
+          "reference": "DJI-DOC-2096",
+          "declaration_model": "DJI Mini 2 SE EU DOC",
+          "source_url": "https://www.dji.com/euro-compliance",
+          "document_url": "https://terra-1-g.djicdn.com/9b266a09f53f4040901d8f8eca40ac3e/Mavic/DJI%20Mini%202%20SE_EU%20DOC_C0.pdf",
+          "field": "temp_sn"
+        }
+      ],
+      "model": "mini2se",
+      "ambiguous": false,
+      "reference": "DJI-DOC-2211;DJI-DOC-2096"
+    },
+    {
+      "prefix": "1581F6GK",
+      "manufacturer": "DJI",
+      "candidates": [
+        "matrice350rtk"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000256",
+          "declaration_model": "M350 RTK",
+          "serial_range": "1581F6GK000000000000-1581F6GKZZZZZZZZZZZZ",
+          "revision": 333,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000256&formatForDocView=true"
+        }
+      ],
+      "model": "matrice350rtk",
+      "ambiguous": false,
+      "reference": "RID000000256"
+    },
+    {
+      "prefix": "1581F6L5",
+      "manufacturer": "DJI",
+      "candidates": [
+        "mini3pro"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000001",
+          "declaration_model": "Mini 3 Pro",
+          "serial_range": "1581F6L5000000000000-1581F6L5ZZZZZZZZZZZZ",
+          "revision": 6115,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000001&formatForDocView=true"
+        }
+      ],
+      "model": "mini3pro",
+      "ambiguous": false,
+      "reference": "RID000000001"
+    },
+    {
+      "prefix": "1581F6MK",
+      "manufacturer": "DJI",
+      "candidates": [
+        "mavic3procine"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000205",
+          "declaration_model": "Mavic 3 Pro Cine",
+          "serial_range": "1581F6MK000000000000-1581F6MKZZZZZZZZZZZZ",
+          "revision": 280,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000205&formatForDocView=true"
+        }
+      ],
+      "model": "mavic3procine",
+      "ambiguous": false,
+      "reference": "RID000000205"
+    },
+    {
+      "prefix": "1581F6N8",
+      "manufacturer": "DJI",
+      "candidates": [
+        "air3"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000714",
+          "declaration_model": "Air 3",
+          "serial_range": "1581F6N8000000000000-1581F6N8ZZZZZZZZZZZZ",
+          "revision": 2419,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000714&formatForDocView=true"
+        }
+      ],
+      "model": "air3",
+      "ambiguous": false,
+      "reference": "RID000000714"
+    },
+    {
+      "prefix": "1581F6Q8",
+      "manufacturer": "DJI",
+      "candidates": [
+        "matrice3td"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000001167",
+          "declaration_model": "M3TD",
+          "serial_range": "1581F6Q8000000000000-1581F6Q8ZZZZZZZZZZZZ",
+          "revision": 2557,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000001167&formatForDocView=true"
+        }
+      ],
+      "model": "matrice3td",
+      "ambiguous": false,
+      "reference": "RID000001167"
+    },
+    {
+      "prefix": "1581F6QA",
+      "manufacturer": "DJI",
+      "candidates": [
+        "matrice3d"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000001166",
+          "declaration_model": "M3D",
+          "serial_range": "1581F6QA000000000000-1581F6QAZZZZZZZZZZZZ",
+          "revision": 2556,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000001166&formatForDocView=true"
+        }
+      ],
+      "model": "matrice3d",
+      "ambiguous": false,
+      "reference": "RID000001166"
+    },
+    {
+      "prefix": "1581F6W8",
+      "manufacturer": "DJI",
+      "candidates": [
+        "avata2"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000001376",
+          "declaration_model": "Avata 2",
+          "serial_range": "1581F6W8000000000000-1581F6W8ZZZZZZZZZZZZ",
+          "revision": 3182,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000001376&formatForDocView=true"
+        }
+      ],
+      "model": "avata2",
+      "ambiguous": false,
+      "reference": "RID000001376"
+    },
+    {
+      "prefix": "1581F6Z9",
+      "manufacturer": "DJI",
+      "candidates": [
+        "mini4pro"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000713",
+          "declaration_model": "Mini 4 Pro",
+          "serial_range": "1581F6Z9000000000000-1581F6Z9ZZZZZZZZZZZZ",
+          "revision": 2484,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000713&formatForDocView=true"
+        }
+      ],
+      "model": "mini4pro",
+      "ambiguous": false,
+      "reference": "RID000000713"
+    },
+    {
+      "prefix": "1581F7C6",
+      "manufacturer": "DJI",
+      "candidates": [
+        "flycart30"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000000760",
+          "declaration_model": "FlyCart 30",
+          "serial_range": "1581F7C6000000000000-1581F7C6ZZZZZZZZZZZZ",
+          "revision": 2432,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000000760&formatForDocView=true"
+        }
+      ],
+      "model": "flycart30",
+      "ambiguous": false,
+      "reference": "RID000000760"
+    },
+    {
+      "prefix": "1581F7FV",
+      "manufacturer": "DJI",
+      "candidates": [
+        "matrice4e"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000002198",
+          "declaration_model": "Matrice 4E",
+          "serial_range": "1581F7FV000000000000-1581F7FVZZZZZZZZZZZZ",
+          "revision": 5288,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000002198&formatForDocView=true"
+        }
+      ],
+      "model": "matrice4e",
+      "ambiguous": false,
+      "reference": "RID000002198"
+    },
+    {
+      "prefix": "1581F7K3",
+      "manufacturer": "DJI",
+      "candidates": [
+        "matrice4t"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000002199",
+          "declaration_model": "Matrice 4T",
+          "serial_range": "1581F7K3000000000000-1581F7K3ZZZZZZZZZZZZ",
+          "revision": 5289,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000002199&formatForDocView=true"
+        }
+      ],
+      "model": "matrice4t",
+      "ambiguous": false,
+      "reference": "RID000002199"
+    },
+    {
+      "prefix": "1581F7V2",
+      "manufacturer": "DJI",
+      "candidates": [
+        "flip"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_document_selector",
+          "reference": "DJI-DOC-2146",
+          "declaration_model": "DJI Flip EU DOC C0",
+          "source_url": "https://www.dji.com/euro-compliance",
+          "document_url": "https://terra-1-g.djicdn.com/9b266a09f53f4040901d8f8eca40ac3e/Mavic/DJI%20Flip_C0_OK.pdf",
+          "field": "temp_sn"
+        }
+      ],
+      "model": "flip",
+      "ambiguous": false,
+      "reference": "DJI-DOC-2146"
+    },
+    {
+      "prefix": "1581F836",
+      "manufacturer": "DJI",
+      "candidates": [
+        "agrast25p"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000002587",
+          "declaration_model": "Agras T25P",
+          "serial_range": "1581F836000000000000-1581F836ZZZZZZZZZZZZ",
+          "revision": 5987,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000002587&formatForDocView=true"
+        }
+      ],
+      "model": "agrast25p",
+      "ambiguous": false,
+      "reference": "RID000002587"
+    },
+    {
+      "prefix": "1581F87L",
+      "manufacturer": "DJI",
+      "candidates": [
+        "neo"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_document_selector",
+          "reference": "DJI-DOC-2111",
+          "declaration_model": "DJI Neo EU DOC C0",
+          "source_url": "https://www.dji.com/euro-compliance",
+          "document_url": "https://terra-1-g.djicdn.com/9b266a09f53f4040901d8f8eca40ac3e/Mavic/DJI%20Neo%20All.pdf",
+          "field": "temp_sn"
+        }
+      ],
+      "model": "neo",
+      "ambiguous": false,
+      "reference": "DJI-DOC-2111"
+    },
+    {
+      "prefix": "1581F895",
+      "manufacturer": "DJI",
+      "candidates": [
+        "air3s"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000002046",
+          "declaration_model": "Air 3S",
+          "serial_range": "1581F895000000000000-1581F895ZZZZZZZZZZZZ",
+          "revision": 4994,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000002046&formatForDocView=true"
+        }
+      ],
+      "model": "air3s",
+      "ambiguous": false,
+      "reference": "RID000002046"
+    },
+    {
+      "prefix": "1581F8DB",
+      "manufacturer": "DJI",
+      "candidates": [
+        "matrice400"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000002486",
+          "declaration_model": "Matrice 400",
+          "serial_range": "1581F8DB000000000000-1581F8DBZZZZZZZZZZZZ",
+          "revision": 5796,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000002486&formatForDocView=true"
+        }
+      ],
+      "model": "matrice400",
+      "ambiguous": false,
+      "reference": "RID000002486"
+    },
+    {
+      "prefix": "1581F8HG",
+      "manufacturer": "DJI",
+      "candidates": [
+        "matrice4td"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000002247",
+          "declaration_model": "Matrice 4TD",
+          "serial_range": "1581F8HG000000000000-1581F8HGZZZZZZZZZZZZ",
+          "revision": 5373,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000002247&formatForDocView=true"
+        }
+      ],
+      "model": "matrice4td",
+      "ambiguous": false,
+      "reference": "RID000002247"
+    },
+    {
+      "prefix": "1581F8HH",
+      "manufacturer": "DJI",
+      "candidates": [
+        "matrice4d"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000002246",
+          "declaration_model": "Matrice 4D",
+          "serial_range": "1581F8HH000000000000-1581F8HHZZZZZZZZZZZZ",
+          "revision": 5372,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000002246&formatForDocView=true"
+        }
+      ],
+      "model": "matrice4d",
+      "ambiguous": false,
+      "reference": "RID000002246"
+    },
+    {
+      "prefix": "1581F8LQ",
+      "manufacturer": "DJI",
+      "candidates": [
+        "mavic4pro"
+      ],
+      "variant": "64GB",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000002375",
+          "declaration_model": "Mavic 4 Pro (64 GB)",
+          "serial_range": "1581F8LQ000000000000-1581F8LQZZZZZZZZZZZZ",
+          "revision": 5580,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000002375&formatForDocView=true"
+        }
+      ],
+      "model": "mavic4pro",
+      "ambiguous": false,
+      "reference": "RID000002375"
+    },
+    {
+      "prefix": "1581F8PJ",
+      "manufacturer": "DJI",
+      "candidates": [
+        "mini4k"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_document_selector",
+          "reference": "DJI-DOC-2076",
+          "declaration_model": "DJI Mini 4K EU DOC C0",
+          "source_url": "https://www.dji.com/euro-compliance",
+          "document_url": "https://terra-1-g.djicdn.com/9b266a09f53f4040901d8f8eca40ac3e/Mavic/DJI%20Mini%204K%20EU%20DOC%20C0.pdf",
+          "field": "temp_sn"
+        }
+      ],
+      "model": "mini4k",
+      "ambiguous": false,
+      "reference": "DJI-DOC-2076"
+    },
+    {
+      "prefix": "1581F8ZL",
+      "manufacturer": "DJI",
+      "candidates": [
+        "agrast100"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000002576",
+          "declaration_model": "Agras T100",
+          "serial_range": "1581F8ZL000000000000-1581F8ZLZZZZZZZZZZZZ",
+          "revision": 5962,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000002576&formatForDocView=true"
+        }
+      ],
+      "model": "agrast100",
+      "ambiguous": false,
+      "reference": "RID000002576"
+    },
+    {
+      "prefix": "1581F8ZX",
+      "manufacturer": "DJI",
+      "candidates": [
+        "agrast70p"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000002579",
+          "declaration_model": "Agras T70P",
+          "serial_range": "1581F8ZX000000000000-1581F8ZXZZZZZZZZZZZZ",
+          "revision": 5965,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000002579&formatForDocView=true"
+        }
+      ],
+      "model": "agrast70p",
+      "ambiguous": false,
+      "reference": "RID000002579"
+    },
+    {
+      "prefix": "1581F986",
+      "manufacturer": "DJI",
+      "candidates": [
+        "mavic4pro"
+      ],
+      "variant": "512GB",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000002376",
+          "declaration_model": "Mavic 4 Pro (512 GB)",
+          "serial_range": "1581F986000000000000-1581F986ZZZZZZZZZZZZ",
+          "revision": 5581,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000002376&formatForDocView=true"
+        }
+      ],
+      "model": "mavic4pro",
+      "ambiguous": false,
+      "reference": "RID000002376"
+    },
+    {
+      "prefix": "1581F9DE",
+      "manufacturer": "DJI",
+      "candidates": [
+        "mini5pro"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000002581",
+          "declaration_model": "Mini 5 Pro",
+          "serial_range": "1581F9DE000000000000-1581F9DEZZZZZZZZZZZZ",
+          "revision": 5975,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000002581&formatForDocView=true"
+        },
+        {
+          "source": "manufacturer_document_selector",
+          "reference": "DJI-DOC-2381",
+          "declaration_model": "DJI Mini 5 Pro DOC C0",
+          "source_url": "https://www.dji.com/euro-compliance",
+          "document_url": "https://terra-1-g.djicdn.com/9b266a09f53f4040901d8f8eca40ac3e/Mavic/DJI%20Mini%205%20Pro%20C0%20DOC.pdf",
+          "field": "temp_sn"
+        }
+      ],
+      "model": "mini5pro",
+      "ambiguous": false,
+      "reference": "RID000002581;DJI-DOC-2381"
+    },
+    {
+      "prefix": "1581FA6Q",
+      "manufacturer": "DJI",
+      "candidates": [
+        "neo2"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_document_selector",
+          "reference": "DJI-DOC-2416",
+          "declaration_model": "DJI Neo 2",
+          "source_url": "https://www.dji.com/euro-compliance",
+          "document_url": "https://terra-1-g.djicdn.com/9b266a09f53f4040901d8f8eca40ac3e/Mavic/DJI%20Neo%202%20_%20EU%20DOC_C0.pdf",
+          "field": "temp_sn"
+        }
+      ],
+      "model": "neo2",
+      "ambiguous": false,
+      "reference": "DJI-DOC-2416"
+    },
+    {
+      "prefix": "1581FA8J",
+      "manufacturer": "DJI",
+      "candidates": [
+        "avata360"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000002651",
+          "declaration_model": "Avata 360 (DVN3XT)",
+          "serial_range": "1581FA8J000000000000-1581FA8JZZZZZZZZZZZZ",
+          "revision": 6132,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000002651&formatForDocView=true"
+        }
+      ],
+      "model": "avata360",
+      "ambiguous": false,
+      "reference": "RID000002651"
+    },
+    {
+      "prefix": "1581FAN4",
+      "manufacturer": "DJI",
+      "candidates": [
+        "flycart100"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000002620",
+          "declaration_model": "FlyCart 100",
+          "serial_range": "1581FAN4000000000000-1581FAN4ZZZZZZZZZZZZ",
+          "revision": 6053,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000002620&formatForDocView=true"
+        }
+      ],
+      "model": "flycart100",
+      "ambiguous": false,
+      "reference": "RID000002620"
+    },
+    {
+      "prefix": "1581FB34",
+      "manufacturer": "DJI",
+      "candidates": [
+        "litox1"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_document_selector",
+          "reference": "DJI-DOC-2561",
+          "declaration_model": "DJI Lito X1 C1 DOC",
+          "source_url": "https://www.dji.com/euro-compliance",
+          "document_url": "https://terra-1-g.djicdn.com/9b266a09f53f4040901d8f8eca40ac3e/Mavic/DJI%20Lito%20X1_C1_DOC.pdf",
+          "field": "temp_sn"
+        },
+        {
+          "source": "manufacturer_document_selector",
+          "reference": "DJI-DOC-2556",
+          "declaration_model": " DJI Lito X1 C0 DOC",
+          "source_url": "https://www.dji.com/euro-compliance",
+          "document_url": "https://terra-1-g.djicdn.com/9b266a09f53f4040901d8f8eca40ac3e/Mavic/DJI%20Lito%20X1_C0_DOC.pdf",
+          "field": "temp_sn"
+        }
+      ],
+      "model": "litox1",
+      "ambiguous": false,
+      "reference": "DJI-DOC-2561;DJI-DOC-2556"
+    },
+    {
+      "prefix": "1581FBEX",
+      "manufacturer": "DJI",
+      "candidates": [
+        "mavic3ta"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000002584",
+          "declaration_model": "M3TA",
+          "serial_range": "1581FBEX000000000000-1581FBEXZZZZZZZZZZZZ",
+          "revision": 5981,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000002584&formatForDocView=true"
+        }
+      ],
+      "model": "mavic3ta",
+      "ambiguous": false,
+      "reference": "RID000002584"
+    },
+    {
+      "prefix": "1581FBLK",
+      "manufacturer": "DJI",
+      "candidates": [
+        "avata360"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000002650",
+          "declaration_model": "DJI Avata 360 (DVN3NT)",
+          "serial_range": "1581FBLK000000000000-1581FBLKZZZZZZZZZZZZ",
+          "revision": 6131,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000002650&formatForDocView=true"
+        }
+      ],
+      "model": "avata360",
+      "ambiguous": false,
+      "reference": "RID000002650"
+    },
+    {
+      "prefix": "1581FBV5",
+      "manufacturer": "DJI",
+      "candidates": [
+        "lito1"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_document_selector",
+          "reference": "DJI-DOC-2566",
+          "declaration_model": "DJI Lito 1 C0 DOC",
+          "source_url": "https://www.dji.com/euro-compliance",
+          "document_url": "https://terra-1-g.djicdn.com/9b266a09f53f4040901d8f8eca40ac3e/Mavic/DJI%20Lito%201_C0_DOC.pdf",
+          "field": "temp_sn"
+        }
+      ],
+      "model": "lito1",
+      "ambiguous": false,
+      "reference": "DJI-DOC-2566"
+    },
+    {
+      "prefix": "1581FCB6",
+      "manufacturer": "DJI",
+      "candidates": [
+        "mini5pro"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_document_selector",
+          "reference": "DJI-DOC-2381",
+          "declaration_model": "DJI Mini 5 Pro DOC C0",
+          "source_url": "https://www.dji.com/euro-compliance",
+          "document_url": "https://terra-1-g.djicdn.com/9b266a09f53f4040901d8f8eca40ac3e/Mavic/DJI%20Mini%205%20Pro%20C0%20DOC.pdf",
+          "field": "temp_sn"
+        },
+        {
+          "source": "manufacturer_document_selector",
+          "reference": "DJI-DOC-2376",
+          "declaration_model": "DJI Mini 5 Pro DOC C1",
+          "source_url": "https://www.dji.com/euro-compliance",
+          "document_url": "https://terra-1-g.djicdn.com/9b266a09f53f4040901d8f8eca40ac3e/Mavic/DJI%20Mini%205%20Pro%20C1%20DOC.pdf",
+          "field": "temp_sn"
+        }
+      ],
+      "model": "mini5pro",
+      "ambiguous": false,
+      "reference": "DJI-DOC-2381;DJI-DOC-2376"
+    },
+    {
+      "prefix": "2137FDE1",
+      "manufacturer": "Antigravity",
+      "candidates": [
+        "antigravitya1"
+      ],
+      "variant": "",
+      "evidence": [
+        {
+          "source": "manufacturer_public_declaration",
+          "reference": "RID000002621",
+          "declaration_model": "A1(DE001)",
+          "serial_range": "2137FDE1000000000000-2137FDE1ZZZZZZZZZZZZ",
+          "revision": 6054,
+          "source_url": "https://uasdoc.faa.gov/api/v1/serialNumbers?findBy=docTrackingNumber&docTrackingNumber=RID000002621&formatForDocView=true"
+        }
+      ],
+      "model": "antigravitya1",
+      "ambiguous": false,
+      "reference": "RID000002621"
+    }
+  ]
+}
