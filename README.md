@@ -2,7 +2,7 @@
 
 基于 ESP32-S3 的无人机远程识别（RID）接收与实验工作台，面向中国大陆广播场景。手机或电脑连接设备热点后，可在浏览器查看收到的身份和位置，也可在发射界面使用模拟数据。
 
-> 当前版本：2.21。新增选点地图双指缩放和鼠标滚轮缩放。此前 2.20 已在一块 ESP32-S3 N16R8 上编译、烧录并读取启动状态；2.21 的手势逻辑通过 Node 回归检查和固件编译，尚未进行手机触摸或电脑鼠标实机验证。它不是经过认证的接收设备。
+> 当前版本：2.22。新增选点地图双指缩放和鼠标滚轮缩放。此前 2.20 已在一块 ESP32-S3 N16R8 上编译、烧录并读取启动状态；2.22 增加手机原生 Touch Events 支持与地图脚本缓存控制；手势逻辑通过 Node 回归检查和固件编译，尚未进行手机触摸或电脑鼠标实机验证。它不是经过认证的接收设备。
 
 ## 功能
 
@@ -24,7 +24,7 @@
 
 ## 从源码构建固件
 
-以下组合用于 2.21：Arduino CLI 1.5.2-rc.1、Espressif Arduino ESP32 core 3.3.12、NimBLE-Arduino 2.5.1。需要先安装 Arduino CLI 和相应 ESP32 core。将 NimBLE-Arduino 2.5.1 放在 `RID_Dependencies/NimBLE-Arduino`，或将命令中的 `--library` 改成该库的实际绝对路径。运行目录为仓库根目录：
+以下组合用于 2.22：Arduino CLI 1.5.2-rc.1、Espressif Arduino ESP32 core 3.3.12、NimBLE-Arduino 2.5.1。需要先安装 Arduino CLI 和相应 ESP32 core。将 NimBLE-Arduino 2.5.1 放在 `RID_Dependencies/NimBLE-Arduino`，或将命令中的 `--library` 改成该库的实际绝对路径。运行目录为仓库根目录：
 
 ```sh
 arduino-cli compile \

@@ -6,7 +6,7 @@ const vm = require('node:vm');
 
 const source = readFileSync(join(__dirname, '../RID_Workbench/map_picker.h'), 'utf8').split('R"JS(')[1].split(')JS";')[0];
 
-function harness() {
+function harness(nativeTouch = false) {
   const nodes = [], frames = [], grid = [], tileKeys = [], selections = [], imageUrls = [];
   const element = () => {
     const node = {style: {}, setAttribute() {}, append() {}, after() {}, addEventListener() {}};
@@ -34,6 +34,7 @@ function harness() {
     setTimeout() {return 0;}, clearTimeout() {},
   };
   sandbox.window = sandbox;
+  if (nativeTouch) sandbox.ontouchstart = null;
   vm.createContext(sandbox);
   vm.runInContext(source, sandbox);
   sandbox.RidIpLocation.lookup = () => new Promise(() => {});
@@ -149,4 +150,40 @@ test('adding a third finger and continuing with one finger do not jump or select
   assert.notEqual(after.lon, before.lon); near(after.zoom, before.zoom);
   h.emit('pointerup', {pointerId: 1});
   assert.equal(h.selections.length, 0);
+});
+
+function touchList(...touches) {
+  return Object.assign({length: touches.length}, touches);
+}
+
+test('native mobile touch events zoom without needing pointer capture or iterable TouchList', () => {
+  const h = harness(true), before = h.view();
+  const a = {identifier: 1, clientX: 170, clientY: 190};
+  const b = {identifier: 2, clientX: 270, clientY: 190};
+  const start = h.emit('touchstart', {changedTouches: touchList(a, b)});
+  h.emit('pointerdown', {pointerType: 'touch', pointerId: 1});
+  h.emit('pointercancel', {pointerType: 'touch', pointerId: 1});
+  h.emit('touchmove', {changedTouches: touchList({...a, clientX: 120}, {...b, clientX: 320})});
+  const after = h.view();
+  near(after.zoom, before.zoom + 1); near(after.lat, before.lat); near(after.lon, before.lon);
+  h.emit('touchend', {changedTouches: touchList(a, b)});
+  assert.equal(h.selections.length, 0);
+  assert.equal(start.prevented, true);
+  for (const name of ['touchstart', 'touchmove', 'touchend', 'touchcancel']) assert.equal(h.listeners.get(name).options.passive, false);
+  assert.equal(h.emit('gesturechange').prevented, true);
+});
+
+test('mobile tap still selects once and touch cancellation or disable never selects', () => {
+  const h = harness(true), t = {identifier: 1, clientX: 220, clientY: 190};
+  h.emit('touchstart', {changedTouches: touchList(t)});
+  h.emit('touchend', {changedTouches: touchList(t)});
+  assert.equal(h.selections.length, 1);
+  h.emit('touchstart', {changedTouches: touchList(t)});
+  h.emit('touchcancel', {changedTouches: touchList(t)});
+  h.emit('touchend', {changedTouches: touchList(t)});
+  h.emit('touchstart', {changedTouches: touchList(t)});
+  h.map.setDisabled(true);
+  h.emit('touchend', {changedTouches: touchList(t)});
+  h.map.setDisabled(false);
+  assert.equal(h.selections.length, 1);
 });

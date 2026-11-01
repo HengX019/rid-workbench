@@ -45,7 +45,7 @@ window.RidOfflineTiles={
 };
 
 window.createRidMap=function(canvas,onSelect,options={}){
- const M=RidMapMath,ctx=canvas.getContext('2d'),pointers=new Map();let lat=31.23,lon=121.47,viewLat=lat,viewLon=lon,z=6,items=[],online=false,disabled=false,drag=null,pinch=null,cache=new Map(),offlineCache=new Map(),tileError=false,scheduled=false,provider=0,attempt=0,loadedTiles=0,ipLocation=null,viewClaimed=false;
+ const M=RidMapMath,ctx=canvas.getContext('2d'),pointers=new Map(),nativeTouch='ontouchstart' in window;let lat=31.23,lon=121.47,viewLat=lat,viewLon=lon,z=6,items=[],online=false,disabled=false,drag=null,pinch=null,cache=new Map(),offlineCache=new Map(),tileError=false,scheduled=false,provider=0,attempt=0,loadedTiles=0,ipLocation=null,viewClaimed=false;
  const status=options.status||document.getElementById('mapStatus'),radius=options.radius===undefined?10000:options.radius;let selected=options.selected!==false;
  function queue(){if(!scheduled){scheduled=true;requestAnimationFrame(()=>{scheduled=false;draw();});}}
  function point(a,b,w,h){const c=M.project(viewLat,viewLon,z),p=M.project(a,b,z),world=256*2**z;let dx=p[0]-c[0];dx-=Math.round(dx/world)*world;return [w/2+dx,h/2+p[1]-c[1]];}
@@ -123,22 +123,36 @@ window.createRidMap=function(canvas,onSelect,options={}){
   if(points.length>=2){const [a,b]=points,mid={x:(a.x+b.x)/2,y:(a.y+b.y)/2};pinch={distance:Math.max(1,Math.hypot(b.x-a.x,b.y-a.y)),zoom:z,anchor:coordinateAt(mid)};}
   else if(points.length)drag={...points[0],lat:viewLat,lon:viewLon,moved};
  }
- function clearGesture(){const ids=[...pointers.keys()];pointers.clear();drag=null;pinch=null;for(const id of ids)if(canvas.hasPointerCapture(id))canvas.releasePointerCapture(id);}
+ function clearGesture(){const ids=[...pointers.keys()];pointers.clear();drag=null;pinch=null;for(const id of ids)if(typeof canvas.hasPointerCapture==='function'&&canvas.hasPointerCapture(id))canvas.releasePointerCapture(id);}
  canvas.addEventListener('pointerdown',e=>{
-  if(disabled||e.button!==0)return;e.preventDefault();viewClaimed=true;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});canvas.setPointerCapture(e.pointerId);beginGesture(pointers.size>1);
+  if(disabled||(nativeTouch&&e.pointerType==='touch')||e.button!==0)return;e.preventDefault();viewClaimed=true;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});canvas.setPointerCapture(e.pointerId);beginGesture(pointers.size>1);
  });
- canvas.addEventListener('pointermove',e=>{
-  if(disabled||!pointers.has(e.pointerId))return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+ function moveGesture(){
   if(pinch){const [a,b]=pointers.values(),mid={x:(a.x+b.x)/2,y:(a.y+b.y)/2},distance=Math.max(1,Math.hypot(b.x-a.x,b.y-a.y));zoomAt(pinch.zoom+Math.log2(distance/pinch.distance),mid,pinch.anchor);}
-  else if(drag){const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(Math.hypot(dx,dy)>5)drag.moved=true;if(drag.moved){const c=M.project(drag.lat,drag.lon,z),p=M.unproject(c[0]-dx,c[1]-dy,z);viewLat=Math.max(-85,Math.min(85,p[0]));viewLon=p[1];queue();}}
+  else if(drag){const [p]=pointers.values(),dx=p.x-drag.x,dy=p.y-drag.y;if(Math.hypot(dx,dy)>5)drag.moved=true;if(drag.moved){const c=M.project(drag.lat,drag.lon,z),v=M.unproject(c[0]-dx,c[1]-dy,z);viewLat=Math.max(-85,Math.min(85,v[0]));viewLon=v[1];queue();}}
+ }
+ canvas.addEventListener('pointermove',e=>{
+  if(disabled||(nativeTouch&&e.pointerType==='touch')||!pointers.has(e.pointerId))return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});moveGesture();
  });
  function endPointer(e,cancelled=false){
   if(!pointers.has(e.pointerId))return;const clicked=!cancelled&&pointers.size===1&&drag&&!drag.moved;pointers.delete(e.pointerId);beginGesture();
   if(clicked){const p=coordinateAt({x:e.clientX,y:e.clientY});select(p[0],p[1]);}
  }
- canvas.addEventListener('pointerup',e=>endPointer(e));
- canvas.addEventListener('pointercancel',e=>endPointer(e,true));
- canvas.addEventListener('lostpointercapture',e=>endPointer(e,true));
+ canvas.addEventListener('pointerup',e=>{if(!(nativeTouch&&e.pointerType==='touch'))endPointer(e);});
+ canvas.addEventListener('pointercancel',e=>{if(!(nativeTouch&&e.pointerType==='touch'))endPointer(e,true);});
+ canvas.addEventListener('lostpointercapture',e=>{if(!(nativeTouch&&e.pointerType==='touch'))endPointer(e,true);});
+ if(nativeTouch){
+  canvas.addEventListener('touchstart',e=>{
+   if(disabled)return;e.preventDefault();viewClaimed=true;for(const t of Array.from(e.changedTouches))pointers.set(t.identifier,{x:t.clientX,y:t.clientY});beginGesture(pointers.size>1);
+  },{passive:false});
+  canvas.addEventListener('touchmove',e=>{
+   if(disabled||!pointers.size)return;e.preventDefault();for(const t of Array.from(e.changedTouches))if(pointers.has(t.identifier))pointers.set(t.identifier,{x:t.clientX,y:t.clientY});moveGesture();
+  },{passive:false});
+  for(const name of ['touchend','touchcancel'])canvas.addEventListener(name,e=>{
+   if(disabled)return;e.preventDefault();for(const t of Array.from(e.changedTouches))endPointer({pointerId:t.identifier,clientX:t.clientX,clientY:t.clientY},name==='touchcancel');
+  },{passive:false});
+  for(const name of ['gesturestart','gesturechange','gestureend'])canvas.addEventListener(name,e=>{if(!disabled)e.preventDefault();},{passive:false});
+ }
  canvas.addEventListener('wheel',e=>{
   if(disabled)return;e.preventDefault();if(pointers.size||!Number.isFinite(e.deltaY))return;
   const r=canvas.getBoundingClientRect(),delta=e.deltaY*(e.deltaMode===1?16:e.deltaMode===2?r.height:1);

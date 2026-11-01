@@ -650,7 +650,7 @@ void sendObservations() {
 void sendDiagnostics() {
   lastHttpAt=millis();server.client().setNoDelay(true);server.sendHeader("Cache-Control","no-store");
   server.setContentLength(CONTENT_LENGTH_UNKNOWN);server.send(200,"application/json; charset=utf-8","");
-  server.sendContent(String("{\"version\":\"2.21\",\"capture\":")+captureSummary()+
+  server.sendContent(String("{\"version\":\"2.22\",\"capture\":")+captureSummary()+
     ",\"bleReports\":"+String(bleReports.load())+",\"bleExtendedReports\":"+String(bleExtendedReports.load())+
     ",\"wifiReports\":"+String(wifiReports.load())+",\"bleScanError\":"+String(bleScanError)+
     ",\"wifiScanError\":"+String(wifiScanError)+",\"fragmentDiscards\":"+String(fragments.discarded)+",\"fragmentTruncations\":"+String(fragments.truncated)+
@@ -690,7 +690,7 @@ void onPost(const char *path, WebServer::THandlerFunction handler) {
 }
 void configureWeb() {
   server.on("/api/health",HTTP_GET,[](){
-    sendJson(200,String("{\"version\":\"2.21\",\"uptimeMs\":")+String(millis())+
+    sendJson(200,String("{\"version\":\"2.22\",\"uptimeMs\":")+String(millis())+
       ",\"heap\":"+String(ESP.getFreeHeap())+",\"minHeap\":"+String(ESP.getMinFreeHeap())+
       ",\"largestBlock\":"+String(heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT))+
       ",\"localOnlyDhcp\":"+(localOnlyDhcp?"true":"false")+",\"apDisconnects\":"+String(apDisconnects)+"}");
@@ -754,7 +754,7 @@ void configureWeb() {
   });
   server.on("/api/tx", HTTP_GET, []() { sendJson(200, txJson()); });
   server.on("/api/simulation",HTTP_GET,[](){sendJson(200,simulationRoster());});
-  server.on("/map-picker.js",HTTP_GET,[](){server.send_P(200,"application/javascript; charset=utf-8",MAP_PICKER_JS);});
+  server.on("/map-picker.js",HTTP_GET,[](){server.sendHeader("Cache-Control","no-store");server.send_P(200,"application/javascript; charset=utf-8",MAP_PICKER_JS);});
   onPost("/api/simulation/config",[](){
     if(txEnabled || bleTxActive() || txWifi){sendJson(409,"{\"error\":\"请先停止发射，再应用选点\"}");return;}
     lab::SimConfig next=simConfig;double lat,lon,count,model;
@@ -1004,7 +1004,7 @@ void probe(void *) {
 
 void setup() {
   Serial.begin(115200);initializeStatusLed();delay(600);
-  Serial.printf("\nRID Workbench 2.21 | flash=%u psram=%u reset=%d\n", ESP.getFlashChipSize(), ESP.getPsramSize(), int(esp_reset_reason()));
+  Serial.printf("\nRID Workbench 2.22 | flash=%u psram=%u reset=%d\n", ESP.getFlashChipSize(), ESP.getPsramSize(), int(esp_reset_reason()));
   pinMode(0, INPUT_PULLUP);
   rxQueue = xQueueCreate(48, sizeof(rid::Frame));
   if (!rxQueue) { Serial.println("FATAL: receive queue allocation failed"); return; }
@@ -1105,7 +1105,7 @@ void loop() {
       txEnabled, bleTxActive(), txWifi, (unsigned long)bleReports.load(), (unsigned long)wifiReports.load(), (unsigned long)bleExtendedReports.load(), (unsigned long)bleCodedReports.load(), (unsigned long)sweeps, wifiScanError, (unsigned long)wifiChannelMask.load());
     if (c == 'i') Serial.printf("SIM mode=%d wifiDevices=%u bleDevices=%u wifiFrames=%lu bleSlots=%lu wifiCycles=%lu bleCycles=%lu wifiCycleMs=%lu bleCycleMs=%lu failures=%lu\n",
       txSimulation,simWifiCursor.unique,simBleCursor.unique,(unsigned long)simWifiCursor.slots,(unsigned long)simBleCursor.slots,(unsigned long)simWifiCursor.cycles,(unsigned long)simBleCursor.cycles,(unsigned long)simWifiCursor.lastCycleMs,(unsigned long)simBleCursor.lastCycleMs,(unsigned long)simFailures);
-    if(c=='i')Serial.println(String("VERSION 2.21 catalog=")+rid::ModelCatalogVersion+" prefixes="+String(sizeof(rid::SerialModels)/sizeof(rid::SerialModels[0])));
+    if(c=='i')Serial.println(String("VERSION 2.22 catalog=")+rid::ModelCatalogVersion+" prefixes="+String(sizeof(rid::SerialModels)/sizeof(rid::SerialModels[0])));
     if(c=='i')Serial.println(String("RECEPTION ")+receptionProgress());
     if(c=='i')Serial.println(String("RADIO " )+radioSettingsJson());
     if(c=='i')Serial.printf("LED pin=%u mode=%s on=%d periodMs=2000\n",statusLedPin,lab::ledModeName(statusLed.mode),appliedLed.r || appliedLed.g);
