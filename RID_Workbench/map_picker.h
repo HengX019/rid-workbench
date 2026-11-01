@@ -45,7 +45,7 @@ window.RidOfflineTiles={
 };
 
 window.createRidMap=function(canvas,onSelect,options={}){
- const M=RidMapMath,ctx=canvas.getContext('2d');let lat=31.23,lon=121.47,viewLat=lat,viewLon=lon,z=6,items=[],online=false,disabled=false,drag=null,cache=new Map(),offlineCache=new Map(),tileError=false,scheduled=false,provider=0,attempt=0,loadedTiles=0,ipLocation=null,viewClaimed=false;
+ const M=RidMapMath,ctx=canvas.getContext('2d'),pointers=new Map();let lat=31.23,lon=121.47,viewLat=lat,viewLon=lon,z=6,items=[],online=false,disabled=false,drag=null,pinch=null,cache=new Map(),offlineCache=new Map(),tileError=false,scheduled=false,provider=0,attempt=0,loadedTiles=0,ipLocation=null,viewClaimed=false;
  const status=options.status||document.getElementById('mapStatus'),radius=options.radius===undefined?10000:options.radius;let selected=options.selected!==false;
  function queue(){if(!scheduled){scheduled=true;requestAnimationFrame(()=>{scheduled=false;draw();});}}
  function point(a,b,w,h){const c=M.project(viewLat,viewLon,z),p=M.project(a,b,z),world=256*2**z;let dx=p[0]-c[0];dx-=Math.round(dx/world)*world;return [w/2+dx,h/2+p[1]-c[1]];}
@@ -55,20 +55,20 @@ window.createRidMap=function(canvas,onSelect,options={}){
   for(const line of RidOfflineCoast){let drawing=false;for(const c of line){const p=point(c[1],c[0],w,h);if(!drawing){ctx.moveTo(...p);drawing=true;}else ctx.lineTo(...p);}}ctx.stroke();
   ctx.fillStyle='#5e7674';ctx.font='11px -apple-system,sans-serif';for(const city of RidOfflineCities){const p=point(city[0],city[1],w,h);if(p[0]>=-60&&p[0]<=w+60&&p[1]>=0&&p[1]<=h){ctx.beginPath();ctx.arc(p[0],p[1],2,0,2*Math.PI);ctx.fill();ctx.fillText(city[2],p[0]+4,p[1]-4);}}
 
-  const center=M.project(viewLat,viewLon,z),left=center[0]-w/2,top=center[1]-h/2,n=2**z;
-  for(let x=Math.floor(left/256);x<=Math.floor((left+w)/256);x++)for(let y=Math.floor(top/256);y<=Math.floor((top+h)/256);y++){
-   const px=x*256-left,py=y*256-top;ctx.strokeStyle='#d8e3e4';ctx.strokeRect(px,py,256,256);
-   if(y>=0&&y<n){const tx=((x%n)+n)%n,key=z+'/'+tx+'/'+y;let local=offlineCache.get(key);if(local===undefined){offlineCache.set(key,null);RidOfflineTiles.get(key).then(blob=>{if(!blob)return;const image=new Image();const url=URL.createObjectURL(blob);image.onload=()=>{URL.revokeObjectURL(url);queue();};image.onerror=()=>URL.revokeObjectURL(url);image.src=url;offlineCache.set(key,image);if(offlineCache.size>256)offlineCache.delete(offlineCache.keys().next().value);queue();}).catch(()=>{});}else if(local&&local.complete&&local.naturalWidth){ctx.drawImage(local,px,py,256,256);offlineLoaded++;continue;}}
-   if(online&&y>=0&&y<n){const tx=((x%n)+n)%n,key=provider+'/'+z+'/'+tx+'/'+y;let im=cache.get(key);
+  const center=M.project(viewLat,viewLon,z),left=center[0]-w/2,top=center[1]-h/2,tileZoom=Math.floor(z),tileSize=256*2**(z-tileZoom),n=2**tileZoom;
+  for(let x=Math.floor(left/tileSize);x<=Math.floor((left+w)/tileSize);x++)for(let y=Math.floor(top/tileSize);y<=Math.floor((top+h)/tileSize);y++){
+   const px=x*tileSize-left,py=y*tileSize-top;ctx.strokeStyle='#d8e3e4';ctx.strokeRect(px,py,tileSize,tileSize);
+   if(y>=0&&y<n){const tx=((x%n)+n)%n,key=tileZoom+'/'+tx+'/'+y;let local=offlineCache.get(key);if(local===undefined){offlineCache.set(key,null);RidOfflineTiles.get(key).then(blob=>{if(!blob)return;const image=new Image();const url=URL.createObjectURL(blob);image.onload=()=>{URL.revokeObjectURL(url);queue();};image.onerror=()=>URL.revokeObjectURL(url);image.src=url;offlineCache.set(key,image);if(offlineCache.size>256)offlineCache.delete(offlineCache.keys().next().value);queue();}).catch(()=>{});}else if(local&&local.complete&&local.naturalWidth){ctx.drawImage(local,px,py,tileSize,tileSize);offlineLoaded++;continue;}}
+   if(online&&y>=0&&y<n){const tx=((x%n)+n)%n,key=provider+'/'+tileZoom+'/'+tx+'/'+y;let im=cache.get(key);
     if(!im){
       im=new Image();cache.set(key,im);const ownProvider=provider,ownAttempt=attempt;
       const timeout=setTimeout(()=>{if(!im.naturalWidth){im.failed=true;fallback(ownProvider,ownAttempt);queue();}},6000);
       im.onload=()=>{clearTimeout(timeout);im.failed=false;if(ownProvider===provider&&ownAttempt===attempt){loadedTiles++;tileError=false;}queue();};
       im.onerror=()=>{clearTimeout(timeout);im.failed=true;fallback(ownProvider,ownAttempt);queue();};
-      im.src=provider===0?'https://tile.openstreetmap.org/'+z+'/'+tx+'/'+y+'.png':'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/'+z+'/'+y+'/'+tx;
+      im.src=provider===0?'https://tile.openstreetmap.org/'+tileZoom+'/'+tx+'/'+y+'.png':'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/'+tileZoom+'/'+y+'/'+tx;
       if(cache.size>96)cache.delete(cache.keys().next().value);
     }
-    if(im.complete&&im.naturalWidth){ctx.drawImage(im,px,py,256,256);visibleLoaded++;}
+    if(im.complete&&im.naturalWidth){ctx.drawImage(im,px,py,tileSize,tileSize);visibleLoaded++;}
     else if(im.failed)visibleFailed++;else visiblePending++;
    }
   }
@@ -83,7 +83,7 @@ window.createRidMap=function(canvas,onSelect,options={}){
   }
   if(selected){const p=point(lat,lon,w,h);ctx.beginPath();ctx.arc(...p,5,0,2*Math.PI);ctx.fillStyle='#d16b35';ctx.fill();ctx.strokeStyle='white';ctx.lineWidth=2;ctx.stroke();}
   ctx.fillStyle='#203f4e';ctx.font='11px -apple-system,sans-serif';ctx.fillText(radius?'半径 10 km · WGS-84':'固定参数选点 · WGS-84',12,h-15);
-  status.textContent=!online?(offlineLoaded?'离线瓦片地图 · ':'离线概览地图（无街道细节） · ')+'拖动浏览，点击选点':visibleLoaded?(provider===0?'街道地图 · ':'卫星地图 · ')+(visiblePending?'加载中 · ':'')+'拖动浏览，点击选点':visiblePending?'地图正在加载…':visibleFailed?'地图联网失败，显示离线概览或已导入瓦片':'地图准备中';
+  status.textContent=!online?(offlineLoaded?'离线瓦片地图 · ':'离线概览地图（无街道细节） · ')+'拖动浏览 · 双指或滚轮缩放 · 点击选点':visibleLoaded?(provider===0?'街道地图 · ':'卫星地图 · ')+(visiblePending?'加载中 · ':'')+'拖动浏览 · 双指或滚轮缩放 · 点击选点':visiblePending?'地图正在加载…':visibleFailed?'地图联网失败，显示离线概览或已导入瓦片':'地图准备中';
  }
  function fallback(ownProvider,ownAttempt){
   if(ownProvider!==provider||ownAttempt!==attempt)return;
@@ -112,10 +112,38 @@ window.createRidMap=function(canvas,onSelect,options={}){
  external.onclick=()=>{external.href='https://uri.amap.com/marker?position='+encodeURIComponent(viewLon+','+viewLat)+'&coordinate=wgs84&name='+encodeURIComponent('RID 地图中心')+'&callnative=0';};
  credit.append(document.createTextNode(' · '),external);external.href='https://uri.amap.com/marker?position=121.47,31.23&coordinate=wgs84&callnative=0';
  function select(a,b){if(disabled||!Number.isFinite(a)||!Number.isFinite(b)||Math.abs(a)>85||Math.abs(b)>180)return false;viewClaimed=true;lat=a;lon=b;selected=true;items=[];onSelect(lat,lon);queue();return true;}
- canvas.addEventListener('pointerdown',e=>{if(disabled)return;viewClaimed=true;canvas.setPointerCapture(e.pointerId);drag={x:e.clientX,y:e.clientY,lat:viewLat,lon:viewLon,moved:false};});
- canvas.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(Math.hypot(dx,dy)>5)drag.moved=true;if(drag.moved){const c=M.project(drag.lat,drag.lon,z),p=M.unproject(c[0]-dx,c[1]-dy,z);viewLat=Math.max(-85,Math.min(85,p[0]));viewLon=p[1];queue();}});
- canvas.addEventListener('pointerup',e=>{if(!drag)return;const clicked=!drag.moved;drag=null;if(clicked){const r=canvas.getBoundingClientRect(),c=M.project(viewLat,viewLon,z),p=M.unproject(c[0]+e.clientX-r.left-r.width/2,c[1]+e.clientY-r.top-r.height/2,z);select(p[0],p[1]);}});
- canvas.addEventListener('pointercancel',()=>drag=null);
+ function localPoint(p){const r=canvas.getBoundingClientRect();return [p.x-r.left-r.width/2,p.y-r.top-r.height/2];}
+ function coordinateAt(p){const c=M.project(viewLat,viewLon,z),offset=localPoint(p);return M.unproject(c[0]+offset[0],c[1]+offset[1],z);}
+ function zoomAt(level,p,anchor=coordinateAt(p)){
+  z=Math.max(3,Math.min(17,level));const offset=localPoint(p),c=M.project(anchor[0],anchor[1],z),v=M.unproject(c[0]-offset[0],c[1]-offset[1],z);
+  viewClaimed=true;viewLat=Math.max(-85,Math.min(85,v[0]));viewLon=v[1];queue();
+ }
+ function beginGesture(moved=true){
+  drag=null;pinch=null;const points=[...pointers.values()];
+  if(points.length>=2){const [a,b]=points,mid={x:(a.x+b.x)/2,y:(a.y+b.y)/2};pinch={distance:Math.max(1,Math.hypot(b.x-a.x,b.y-a.y)),zoom:z,anchor:coordinateAt(mid)};}
+  else if(points.length)drag={...points[0],lat:viewLat,lon:viewLon,moved};
+ }
+ function clearGesture(){const ids=[...pointers.keys()];pointers.clear();drag=null;pinch=null;for(const id of ids)if(canvas.hasPointerCapture(id))canvas.releasePointerCapture(id);}
+ canvas.addEventListener('pointerdown',e=>{
+  if(disabled||e.button!==0)return;e.preventDefault();viewClaimed=true;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});canvas.setPointerCapture(e.pointerId);beginGesture(pointers.size>1);
+ });
+ canvas.addEventListener('pointermove',e=>{
+  if(disabled||!pointers.has(e.pointerId))return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(pinch){const [a,b]=pointers.values(),mid={x:(a.x+b.x)/2,y:(a.y+b.y)/2},distance=Math.max(1,Math.hypot(b.x-a.x,b.y-a.y));zoomAt(pinch.zoom+Math.log2(distance/pinch.distance),mid,pinch.anchor);}
+  else if(drag){const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(Math.hypot(dx,dy)>5)drag.moved=true;if(drag.moved){const c=M.project(drag.lat,drag.lon,z),p=M.unproject(c[0]-dx,c[1]-dy,z);viewLat=Math.max(-85,Math.min(85,p[0]));viewLon=p[1];queue();}}
+ });
+ function endPointer(e,cancelled=false){
+  if(!pointers.has(e.pointerId))return;const clicked=!cancelled&&pointers.size===1&&drag&&!drag.moved;pointers.delete(e.pointerId);beginGesture();
+  if(clicked){const p=coordinateAt({x:e.clientX,y:e.clientY});select(p[0],p[1]);}
+ }
+ canvas.addEventListener('pointerup',e=>endPointer(e));
+ canvas.addEventListener('pointercancel',e=>endPointer(e,true));
+ canvas.addEventListener('lostpointercapture',e=>endPointer(e,true));
+ canvas.addEventListener('wheel',e=>{
+  if(disabled)return;e.preventDefault();if(pointers.size||!Number.isFinite(e.deltaY))return;
+  const r=canvas.getBoundingClientRect(),delta=e.deltaY*(e.deltaMode===1?16:e.deltaMode===2?r.height:1);
+  zoomAt(z-Math.max(-120,Math.min(120,delta))*0.003,{x:e.clientX,y:e.clientY});
+ },{passive:false});
  new ResizeObserver(queue).observe(canvas);
  const ipInfo=document.createElement('p');ipInfo.className='help ip-location-status';ipInfo.setAttribute('role','status');
  ipInfo.style.cssText='margin:10px 0;color:#1556a6;line-height:1.7';canvas.parentElement.after(ipInfo);
@@ -142,7 +170,7 @@ window.createRidMap=function(canvas,onSelect,options={}){
   if(claim)viewClaimed=true;
   queue();
  }
- return {draw:queue,select,setSelected(v){selected=v;queue();},setCenter(a,b,recenter=true){setAnchor(a,b,recenter,true);},setInitialCenter(a,b){setAnchor(a,b,true,false);},claimView(){viewClaimed=true;},setItems(v){items=v;queue();},setDisabled(v){disabled=v;if(v)drag=null;canvas.setAttribute('aria-disabled',String(v));},zoom(d){viewClaimed=true;z=Math.max(3,Math.min(17,z+d));queue();},online(v){online=v;tileError=false;provider=0;attempt++;loadedTiles=0;cache.clear();for(const [key,im] of cache)if(im.complete&&!im.naturalWidth)cache.delete(key);queue();},recenter(){viewClaimed=true;viewLat=lat;viewLon=lon;queue();}};
+ return {draw:queue,select,setSelected(v){selected=v;queue();},setCenter(a,b,recenter=true){setAnchor(a,b,recenter,true);},setInitialCenter(a,b){setAnchor(a,b,true,false);},claimView(){viewClaimed=true;},setItems(v){items=v;queue();},setDisabled(v){disabled=v;if(v)clearGesture();canvas.setAttribute('aria-disabled',String(v));},zoom(d){if(disabled||!Number.isFinite(d))return;clearGesture();const r=canvas.getBoundingClientRect();zoomAt(z+d,{x:r.left+r.width/2,y:r.top+r.height/2});},online(v){online=v;tileError=false;provider=0;attempt++;loadedTiles=0;cache.clear();for(const [key,im] of cache)if(im.complete&&!im.naturalWidth)cache.delete(key);queue();},recenter(){viewClaimed=true;viewLat=lat;viewLon=lon;queue();}};
 };
 // Photon uses GeoJSON [longitude,latitude]; all displayed/selected coordinates
 // remain WGS-84. No location bias or form coordinates are sent to the service.
