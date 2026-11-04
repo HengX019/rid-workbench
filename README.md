@@ -2,7 +2,11 @@
 
 基于 ESP32-S3 的无人机远程识别（RID）接收与实验工作台，面向中国大陆广播场景。手机或电脑连接设备热点后，可在浏览器查看收到的身份和位置，也可在发射界面使用模拟数据。
 
-> 当前版本：2.22。新增选点地图双指缩放和鼠标滚轮缩放。此前 2.20 已在一块 ESP32-S3 N16R8 上编译、烧录并读取启动状态；2.22 增加手机原生 Touch Events 支持与地图脚本缓存控制；手势逻辑通过 Node 回归检查和固件编译，尚未进行手机触摸或电脑鼠标实机验证。它不是经过认证的接收设备。
+> 当前版本：2.23。单机与多机模拟补齐相对高度、航向、水平／垂直速度及精度等级；网页开始发射时自动用手机或电脑时间校时。旧版已保存的身份和坐标可迁移。广播编码与浏览器操作已完成自动化检查；第三方侦测器的实际接收显示仍需现场验证。
+
+版本变化见 [更新日志](CHANGELOG.md)，本次同步范围及验证说明见 [2.23 发布说明](docs/releases/2.23.md)。
+
+本仓库保留原公开版简化底图。设备本地版本中的附加城市、历史县城和边界数据，以及包含这些数据的固件和压缩包，因再分发来源与许可尚未核实，未纳入此次公开同步。源码构建的地图内容因此与该设备本地版本不同；遥测补全、校时和触屏操作包含在本仓库中。
 
 ## 功能
 
@@ -24,7 +28,7 @@
 
 ## 从源码构建固件
 
-以下组合用于 2.22：Arduino CLI 1.5.2-rc.1、Espressif Arduino ESP32 core 3.3.12、NimBLE-Arduino 2.5.1。需要先安装 Arduino CLI 和相应 ESP32 core。将 NimBLE-Arduino 2.5.1 放在 `RID_Dependencies/NimBLE-Arduino`，或将命令中的 `--library` 改成该库的实际绝对路径。运行目录为仓库根目录：
+以下组合用于 2.23：Arduino CLI 1.5.2-rc.1、Espressif Arduino ESP32 core 3.3.12、NimBLE-Arduino 2.5.1。需要先安装 Arduino CLI 和相应 ESP32 core。将 NimBLE-Arduino 2.5.1 放在 `RID_Dependencies/NimBLE-Arduino`，或将命令中的 `--library` 改成该库的实际绝对路径。运行目录为仓库根目录：
 
 ```sh
 arduino-cli compile \
@@ -73,3 +77,24 @@ esptool --chip esp32s3 --port PORT --baud 460800 write-flash \
 ## 地图交互回归检查
 
 需要 Node.js，运行 `node --test tests/map_gestures.test.cjs`。检查缩放锚点、双指松开不误选、鼠标拖动、缩放边界、禁用状态和整数瓦片地址；这是模拟事件检查，不替代 Safari 或其他浏览器的真机验证。
+
+## 2.23 模拟遥测
+
+固定参数页面的“飞行状态”可填写相对起飞点高度（Takeoff）、真北航向、水平速度和垂直速度；固定参数模式不会移动位置。地图飞行模拟中的 1 台或 100 台设备按原有连续轨迹计算上述值，并把相对高度列入明细。
+
+两种模式的模拟精度等级统一为：水平定位 ≤10 m，垂直定位 ≤3 m，速度 ≤1 m/s，时间 ≤0.1 s。这些等级是生成的测试数据，不是 ESP32 或 GNSS 的实测精度。坐标均为零时，位置及其水平精度保留未知。气压高度没有测量来源，继续保留未知。
+
+浏览器在发出每次“开始发射”请求时附带 UTC 毫秒时间，不依赖联网。Location 消息使用当前 UTC 小时内的 0.1 秒时间戳，System 消息使用自 2019-01-01 起的秒数。未校时、重启或校时超过 24 小时后，时间及其精度保持未知；网页会显示状态，重新开始发射即可校时。时间精度等级为模拟值，实际时间正确性取决于手机或电脑时钟及请求延迟。
+
+新增可选表单字段：`height`（−999.5–31767.5 m）、`heading`（0–360°，360 编为 0）、`speed`（0–254.25 m/s）、`verticalSpeed`（−62–62 m/s）。旧客户端不传这些字段时保留已存值。`utcMs` 可随 `/api/tx/start` 或 `/api/simulation/start` 提交；无效值返回 400，不启动新发射。
+
+回归检查：
+
+```sh
+sh tests/run_telemetry.sh
+node --test tests/map_gestures.test.cjs
+# 已安装 Playwright 及其 Chromium 时：
+node tests/telemetry_ui.test.cjs
+```
+
+`RID_PLAYWRIGHT_MODULE` 可指定 playwright-core 的安装路径；`RID_CHROME_PATH` 可指定已有 Chrome 可执行文件。网页检查使用模拟设备接口，不触发实体板发射。编码检查覆盖 4,848 个模拟载荷、单机边界值、旧配置迁移、整点与计时器回绕。

@@ -96,6 +96,7 @@ uint32_t rebootAt = 0;
 TaskHandle_t probeTask = nullptr;
 lab::Config txConfig;
 lab::Messages txMessages;
+lab::BroadcastClock txClock;
 bool txEnabled = false, resumeMonitoring = false, txWifi = false;
 uint32_t txStarted = 0, nextBle = 0, lastWifi = 0, txCycles = 0;
 uint8_t blePhase = 0, bleCounters[4]{}, wifiCounter = 0;
@@ -346,6 +347,7 @@ bool clearWifiTx() {
   return ok;
 }
 bool sendWifiTx() {
+  if (!txMessages.build(txConfig,txClock.at(millis()))) return false;
   uint8_t ie[110]; txMessages.wifi(ie, wifiCounter++);
   if (!clearWifiTx()) return false; // This ESP-IDF requires removal before replacing an IE.
   esp_err_t a = esp_wifi_set_vendor_ie(true, WIFI_VND_IE_TYPE_BEACON, WIFI_VND_IE_ID_0, ie);
@@ -354,6 +356,7 @@ bool sendWifiTx() {
   return a == ESP_OK && b == ESP_OK;
 }
 bool sendBleTx() {
+  if (!txMessages.build(txConfig,txClock.at(millis()))) return false;
   int stopped = stopBle();
   if (stopped && stopped != BLE_HS_EALREADY) return false;
   uint8_t ad[31]; txMessages.ble(ad, blePhase, bleCounters[blePhase]++);
@@ -377,7 +380,7 @@ bool sendBleTx() {
 bool sendSimWifi(uint32_t now) {
   lab::SimDevice d;lab::SimMessages messages;uint8_t beacon[256];
   if(!lab::simulatedDevice(simConfig,simWifiCursor.index,uint32_t(now-txStarted),d) ||
-     !messages.build(d,simWifiCursor.takeoff,uint32_t(now-txStarted)))return false;
+     !messages.build(d,simWifiCursor.takeoff,txClock.at(now)))return false;
   size_t n=lab::simulatedBeacon(beacon,sizeof(beacon),d,messages,uint8_t(simWifiCursor.cycles*2+simWifiCursor.takeoff),uint32_t(now-txStarted),Channel);
   if(!n || esp_wifi_80211_tx(WIFI_IF_AP,beacon,n,true)!=ESP_OK)return false;
   txWifi=true;simWifiCursor.sent(now,simConfig.count);return true;
@@ -395,7 +398,7 @@ bool sendSimBle(uint32_t now) {
   }
   lab::SimDevice d;lab::SimMessages messages;uint8_t ad[lab::SimMessages::AdSize];
   if(!lab::simulatedDevice(simConfig,simBleCursor.index,uint32_t(now-txStarted),d) ||
-     !messages.build(d,simBleCursor.takeoff,uint32_t(now-txStarted)))return false;
+     !messages.build(d,simBleCursor.takeoff,txClock.at(now)))return false;
   ble_addr_t addr{};addr.type=BLE_ADDR_RANDOM;for(size_t i=0;i<6;++i)addr.val[i]=d.bleMac[5-i];
   if(ble_gap_ext_adv_set_addr(0,&addr))return false;
   messages.ble(ad,uint8_t(simBleCursor.cycles*2+simBleCursor.takeoff));
@@ -443,7 +446,7 @@ bool startSimulation(const lab::SimConfig &config) {
 }
 bool startTx(const lab::Config &config) {
   lab::Messages built;
-  if (!built.build(config)) { txError = "无法编码发射参数"; return false; }
+  if (!built.build(config,txClock.at(millis()))) { txError = "无法编码发射参数"; return false; }
   if(!prepareTx())return false;
   txSimulation=false;
   txConfig = config; txMessages = built; txError = "";
@@ -491,11 +494,19 @@ String escape(const String &s) {
   return out;
 }
 String simulationGeometry();
+String telemetryProfileJson() {
+  return String("{\"horizontalAccuracyM\":")+String(lab::SimHorizontalAccuracyM,0)+
+    ",\"verticalAccuracyM\":"+String(lab::SimVerticalAccuracyM,0)+
+    ",\"speedAccuracyMps\":"+String(lab::SimSpeedAccuracyMps,0)+
+    ",\"timeAccuracyS\":"+String(lab::SimTimeAccuracyS,1)+"}";
+}
 String txJson() {
   bool active = txEnabled || bleTxActive() || txWifi;
   uint32_t elapsed = millis()-txStarted, total = uint32_t(txSimulation?simConfig.duration:txConfig.duration)*1000;
   uint32_t remaining = txEnabled && elapsed < total ? (total-elapsed+999)/1000 : 0;
   return String("{\"enabled\":") + (active ? "true" : "false") +
+    ",\"timeSynced\":"+(txClock.at(millis()).valid()?"true":"false")+
+    ",\"telemetryProfile\":"+telemetryProfileJson()+
     ",\"ble\":" + (bleTxActive() ? "true" : "false") +
     ",\"wifi\":" + (txWifi ? "true" : "false") +
     ",\"remaining\":" + String(remaining) + ",\"cycles\":" + String(txCycles) +
@@ -509,6 +520,8 @@ String txJson() {
     ",\"error\":\"" + escape(txError) + "\",\"uasId\":\"" + escape(txConfig.uasId) +
     "\",\"opId\":\"" + escape(txConfig.operatorId) + "\",\"lat\":" + String(txConfig.lat,7) +
     ",\"lon\":" + String(txConfig.lon,7) + ",\"alt\":" + String(txConfig.altitude,1) +
+    ",\"height\":"+String(txConfig.height,1)+",\"speed\":"+String(txConfig.speed,2)+
+    ",\"verticalSpeed\":"+String(txConfig.verticalSpeed,2)+",\"heading\":"+String(txConfig.heading,1)+
     ",\"opLat\":" + String(txConfig.opLat,7) + ",\"opLon\":" + String(txConfig.opLon,7) +
     ",\"opAlt\":" + String(txConfig.opAltitude,1) + ",\"duration\":" + String(txConfig.duration) + "}";
 }
@@ -518,6 +531,7 @@ bool persistTx(const lab::Config &config) {
   prefs.end(); return ok;
 }
 bool readTx(lab::Config &out, String &error) {
+  out=txConfig; // Older clients can still save without erasing the new fields.
   if (!server.hasArg("uasId") || !server.hasArg("opId")) { error = "请填写身份参数"; return false; }
   String uas = server.arg("uasId"), op = server.arg("opId");
   uas.trim(); op.trim();
@@ -538,7 +552,28 @@ bool readTx(lab::Config &out, String &error) {
   if (values[6] != floor(values[6])) { error = "测试时长须为整数秒"; return false; }
   out.lat=values[0]; out.lon=values[1]; out.altitude=values[2];
   out.opLat=values[3]; out.opLon=values[4]; out.opAltitude=values[5]; out.duration=values[6];
+  const char *extraFields[]={"height","speed","verticalSpeed","heading"};
+  const double extraLow[]={-999.5,0,MIN_SPEED_V,0};
+  const double extraHigh[]={MAX_ALT,MAX_SPEED_H,MAX_SPEED_V,MAX_DIR};
+  float *extraValues[]={&out.height,&out.speed,&out.verticalSpeed,&out.heading};
+  for(size_t i=0;i<4;++i)if(server.hasArg(extraFields[i])){
+    double value;
+    if(!lab::number(server.arg(extraFields[i]).c_str(),extraLow[i],extraHigh[i],value)){
+      error=String("参数无效或超出范围：")+extraFields[i];return false;
+    }
+    *extraValues[i]=float(value);
+  }
   return lab::valid(out);
+}
+bool syncBrowserClock(String &error) {
+  if(!server.hasArg("utcMs"))return true;
+  double value;
+  if(!lab::number(server.arg("utcMs").c_str(),double(lab::BroadcastClock::MinUnixMs),
+      double(lab::BroadcastClock::MaxUnixMs-1),value) || value!=floor(value) ||
+      !txClock.sync(uint64_t(value),millis())){
+    error="设备时间无效，请检查手机或电脑日期后重试";return false;
+  }
+  return true;
 }
 void sendJson(int status, const String &body) {
   server.sendHeader("Cache-Control", "no-store");
@@ -554,12 +589,14 @@ String simulationGeometry() {
 String simulationRoster() {
   uint32_t elapsed=txEnabled && txSimulation?uint32_t(millis()-txStarted):0;
   String body;body.reserve(36000);
-  body="{\"count\":"+String(simConfig.count)+",\"seed\":"+String(simConfig.seed)+simulationGeometry()+",\"elapsedMs\":"+String(elapsed)+",\"items\":[";
+  body="{\"count\":"+String(simConfig.count)+",\"seed\":"+String(simConfig.seed)+simulationGeometry()+",\"elapsedMs\":"+String(elapsed)+
+    ",\"timeSynced\":"+(txClock.at(millis()).valid()?"true":"false")+",\"telemetryProfile\":"+telemetryProfileJson()+",\"items\":[";
   for(uint16_t i=0;i<simConfig.count;++i){
     lab::SimDevice d;if(!lab::simulatedDevice(simConfig,i,elapsed,d))return "{\"error\":\"模拟生成失败\"}";
     if(i)body+=',';
     body+="{\"index\":"+String(i+1)+",\"sn\":\""+d.flight.uasId+"\",\"model\":\""+d.model+"\",\"operatorId\":\""+d.flight.operatorId+
       "\",\"lat\":"+String(d.flight.lat,7)+",\"lon\":"+String(d.flight.lon,7)+",\"alt\":"+String(d.flight.altitude,1)+
+      ",\"height\":"+String(d.flight.height,1)+
       ",\"speed\":"+String(d.speed,2)+",\"verticalSpeed\":"+String(d.verticalSpeed,2)+",\"heading\":"+String(d.heading,1)+
       ",\"opLat\":"+String(d.flight.opLat,7)+",\"opLon\":"+String(d.flight.opLon,7)+",\"opAlt\":"+String(d.flight.opAltitude,1)+
       ",\"takeoffLat\":"+String(d.takeoffLat,7)+",\"takeoffLon\":"+String(d.takeoffLon,7)+",\"takeoffAlt\":"+String(d.takeoffAltitude,1)+"}";
@@ -650,7 +687,7 @@ void sendObservations() {
 void sendDiagnostics() {
   lastHttpAt=millis();server.client().setNoDelay(true);server.sendHeader("Cache-Control","no-store");
   server.setContentLength(CONTENT_LENGTH_UNKNOWN);server.send(200,"application/json; charset=utf-8","");
-  server.sendContent(String("{\"version\":\"2.22\",\"capture\":")+captureSummary()+
+  server.sendContent(String("{\"version\":\"2.23\",\"capture\":")+captureSummary()+
     ",\"bleReports\":"+String(bleReports.load())+",\"bleExtendedReports\":"+String(bleExtendedReports.load())+
     ",\"wifiReports\":"+String(wifiReports.load())+",\"bleScanError\":"+String(bleScanError)+
     ",\"wifiScanError\":"+String(wifiScanError)+",\"fragmentDiscards\":"+String(fragments.discarded)+",\"fragmentTruncations\":"+String(fragments.truncated)+
@@ -690,7 +727,7 @@ void onPost(const char *path, WebServer::THandlerFunction handler) {
 }
 void configureWeb() {
   server.on("/api/health",HTTP_GET,[](){
-    sendJson(200,String("{\"version\":\"2.22\",\"uptimeMs\":")+String(millis())+
+    sendJson(200,String("{\"version\":\"2.23\",\"uptimeMs\":")+String(millis())+
       ",\"heap\":"+String(ESP.getFreeHeap())+",\"minHeap\":"+String(ESP.getMinFreeHeap())+
       ",\"largestBlock\":"+String(heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT))+
       ",\"localOnlyDhcp\":"+(localOnlyDhcp?"true":"false")+",\"apDisconnects\":"+String(apDisconnects)+"}");
@@ -785,6 +822,7 @@ void configureWeb() {
     const String transport=server.arg("transport");
     if(transport!="both" && transport!="wifi" && transport!="ble"){sendJson(400,"{\"error\":\"请选择有效的发射方式\"}");return;}
     next.duration=uint16_t(duration);next.wifi=transport!="ble";next.ble=transport!="wifi";
+    String error;if(!syncBrowserClock(error)){sendJson(400,"{\"error\":\""+escape(error)+"\"}");return;}
     bool ok=startSimulation(next);if(ok)sendObservations();else sendJson(503,"{\"error\":\""+escape(txError)+"\"}");
   });
   onPost("/api/led",[](){
@@ -800,6 +838,7 @@ void configureWeb() {
   onPost("/api/tx/start", []() {
     lab::Config next; String error;
     if (!readTx(next, error)) { sendJson(400, "{\"error\":\"" + escape(error) + "\"}"); return; }
+    if (!syncBrowserClock(error)) { sendJson(400, "{\"error\":\"" + escape(error) + "\"}"); return; }
     if (!persistTx(next)) { sendJson(500, "{\"error\":\"参数保存失败\"}"); return; }
     bool ok = startTx(next);
     if (!ok) { sendJson(503, "{\"error\":\"" + escape(txError) + "\"}"); return; }
@@ -1004,7 +1043,7 @@ void probe(void *) {
 
 void setup() {
   Serial.begin(115200);initializeStatusLed();delay(600);
-  Serial.printf("\nRID Workbench 2.22 | flash=%u psram=%u reset=%d\n", ESP.getFlashChipSize(), ESP.getPsramSize(), int(esp_reset_reason()));
+  Serial.printf("\nRID Workbench 2.23 | flash=%u psram=%u reset=%d\n", ESP.getFlashChipSize(), ESP.getPsramSize(), int(esp_reset_reason()));
   pinMode(0, INPUT_PULLUP);
   rxQueue = xQueueCreate(48, sizeof(rid::Frame));
   if (!rxQueue) { Serial.println("FATAL: receive queue allocation failed"); return; }
@@ -1021,9 +1060,9 @@ void setup() {
     }
     lab::RadioConfig savedRadio;
     if(prefs.getBytesLength("radio")==sizeof(savedRadio) && prefs.getBytes("radio",&savedRadio,sizeof(savedRadio))==sizeof(savedRadio) && lab::valid(savedRadio))radioConfig=savedRadio;
-    lab::Config config;
-    if (prefs.getBytesLength("tx") == sizeof(config) && prefs.getBytes("tx", &config, sizeof(config)) == sizeof(config) && lab::valid(config))
-      txConfig = config;
+    uint8_t savedTx[sizeof(lab::Config)];const size_t txSize=prefs.getBytesLength("tx");
+    if(txSize && txSize<=sizeof(savedTx) && prefs.getBytes("tx",savedTx,txSize)==txSize)
+      lab::restoreConfig(savedTx,txSize,txConfig);
     prefs.end();
   }
   WiFi.mode(WIFI_AP_STA);
@@ -1105,7 +1144,7 @@ void loop() {
       txEnabled, bleTxActive(), txWifi, (unsigned long)bleReports.load(), (unsigned long)wifiReports.load(), (unsigned long)bleExtendedReports.load(), (unsigned long)bleCodedReports.load(), (unsigned long)sweeps, wifiScanError, (unsigned long)wifiChannelMask.load());
     if (c == 'i') Serial.printf("SIM mode=%d wifiDevices=%u bleDevices=%u wifiFrames=%lu bleSlots=%lu wifiCycles=%lu bleCycles=%lu wifiCycleMs=%lu bleCycleMs=%lu failures=%lu\n",
       txSimulation,simWifiCursor.unique,simBleCursor.unique,(unsigned long)simWifiCursor.slots,(unsigned long)simBleCursor.slots,(unsigned long)simWifiCursor.cycles,(unsigned long)simBleCursor.cycles,(unsigned long)simWifiCursor.lastCycleMs,(unsigned long)simBleCursor.lastCycleMs,(unsigned long)simFailures);
-    if(c=='i')Serial.println(String("VERSION 2.22 catalog=")+rid::ModelCatalogVersion+" prefixes="+String(sizeof(rid::SerialModels)/sizeof(rid::SerialModels[0])));
+    if(c=='i')Serial.println(String("VERSION 2.23 catalog=")+rid::ModelCatalogVersion+" prefixes="+String(sizeof(rid::SerialModels)/sizeof(rid::SerialModels[0])));
     if(c=='i')Serial.println(String("RECEPTION ")+receptionProgress());
     if(c=='i')Serial.println(String("RADIO " )+radioSettingsJson());
     if(c=='i')Serial.printf("LED pin=%u mode=%s on=%d periodMs=2000\n",statusLedPin,lab::ledModeName(statusLed.mode),appliedLed.r || appliedLed.g);

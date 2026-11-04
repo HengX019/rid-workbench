@@ -16,6 +16,7 @@ function harness(nativeTouch = false) {
   const listeners = new Map(), captures = new Set();
   const context = new Proxy({}, {get(target, key) {
     if (key === 'strokeRect') return (...args) => grid.push(args);
+    if (key === 'measureText') return text => ({width: String(text).length * 6});
     return target[key] || (() => {});
   }});
   const rect = {left: 20, top: 40, width: 400, height: 300};

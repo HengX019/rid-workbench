@@ -101,6 +101,8 @@ inline bool simulatedDevice(const SimConfig &cfg, uint16_t index, uint32_t elaps
   d.speed=float(hypot(ve,vn));
   d.verticalSpeed=float(10*omega*0.45*cos(climbPhase)+3*omega*1.3*cos(bobPhase));
   d.heading=float(fmod(atan2(ve,vn)*180/SimPi+360.0,360.0));
+  d.flight.height=d.flight.altitude-d.takeoffAltitude;
+  d.flight.speed=d.speed;d.flight.verticalSpeed=d.verticalSpeed;d.flight.heading=d.heading;
   simProject(cfg.centerLat,cfg.centerLon,anchorE+10,anchorN-20,0,0,
     d.flight.opLat,d.flight.opLon,unusedE,unusedN);
   d.flight.opAltitude=d.takeoffAltitude+1.5f;
@@ -115,23 +117,18 @@ inline bool simulatedDevice(uint32_t seed,uint16_t index,uint32_t elapsed,SimDev
 struct SimMessages {
   static constexpr size_t Count=5, PackSize=3+Count*25, AdSize=6+PackSize, IeSize=7+PackSize;
   uint8_t data[Count][25]{};
-  bool build(const SimDevice &d, bool takeoff, uint32_t elapsed) {
-    Messages base;if (!base.build(d.flight)) return false;
+  bool build(const SimDevice &d, bool takeoff, const TelemetryTime &time = {}) {
+    Messages base;if (!base.build(d.flight,time)) return false;
     memcpy(data,base.data,sizeof(base.data));
-    ODID_Location_data loc;odid_initLocationData(&loc);
-    loc.Status=ODID_STATUS_AIRBORNE;loc.Latitude=d.flight.lat;loc.Longitude=d.flight.lon;
-    loc.AltitudeGeo=d.flight.altitude;loc.HeightType=ODID_HEIGHT_REF_OVER_TAKEOFF;
-    loc.Height=d.flight.altitude-d.takeoffAltitude;loc.TimeStamp=float(elapsed%3600000)/1000.0f;
-    loc.SpeedHorizontal=d.speed;loc.SpeedVertical=d.verticalSpeed;loc.Direction=d.heading;
     ODID_System_data system;odid_initSystemData(&system);
     system.OperatorLocationType=takeoff?ODID_OPERATOR_LOCATION_TYPE_TAKEOFF:ODID_OPERATOR_LOCATION_TYPE_FIXED;
     system.OperatorLatitude=takeoff?d.takeoffLat:d.flight.opLat;
     system.OperatorLongitude=takeoff?d.takeoffLon:d.flight.opLon;
     system.OperatorAltitudeGeo=takeoff?d.takeoffAltitude:d.flight.opAltitude;
+    system.Timestamp=time.valid()?time.since2019:0;
     ODID_SelfID_data self;odid_initSelfIDData(&self);
     snprintf(self.Desc,sizeof(self.Desc),"SIM|%s",d.model);
-    return encodeLocationMessage(reinterpret_cast<ODID_Location_encoded *>(data[1]),&loc)==ODID_SUCCESS &&
-      encodeSystemMessage(reinterpret_cast<ODID_System_encoded *>(data[2]),&system)==ODID_SUCCESS &&
+    return encodeSystemMessage(reinterpret_cast<ODID_System_encoded *>(data[2]),&system)==ODID_SUCCESS &&
       encodeSelfIDMessage(reinterpret_cast<ODID_SelfID_encoded *>(data[4]),&self)==ODID_SUCCESS;
   }
   void pack(uint8_t *out) const {out[0]=0xF2;out[1]=25;out[2]=Count;memcpy(out+3,data,sizeof(data));}

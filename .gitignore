@@ -12,3 +12,7 @@ __pycache__/
 .idea/
 captures/
 diagnostics/
+
+# macOS archive metadata
+._*
+__MACOSX/
